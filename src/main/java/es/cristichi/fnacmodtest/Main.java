@@ -1,5 +1,6 @@
 package es.cristichi.fnacmodtest;
 
+import es.cristichi.fnac.cnight.CustomNightRegistry;
 import es.cristichi.fnacmodtest.anims.Spyro;
 import es.cristichi.fnac.exception.NightException;
 import es.cristichi.fnac.gui.MenuJC;
@@ -10,7 +11,6 @@ import es.cristichi.fnac.obj.cams.CrisRestaurantMap;
 import es.cristichi.fnac.obj.nights.NightFactory;
 import es.cristichi.fnac.obj.nights.NightRegistry;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,10 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        NightRegistry.registerNight(0, new NightFactory() {
+        CustomNightRegistry.registerPackage("es.cristichi.fnacmodtest.anims");
+        
+        NightRegistry.registerNight(0, null);
+        NightRegistry.registerNight(1, new NightFactory() {
             @Override
             public MenuJC.Item getItem() {
                 return new MenuJC.Item("night1", "Let's play with Spyro", "Night 1", null);
@@ -31,7 +34,7 @@ public class Main {
                 nightMap.addCamAnimatronics("kitchen", new Spyro("spyro", Map.of(0,20), List.of(
                         List.of("kitchen", "dining area", "corridor 2", "bathrooms", "rightDoor"),
                         List.of("storage", "dining area", "main stage", "corridor 3", "leftDoor")
-                ), Color.MAGENTA.darker(), rng));
+                ), rng));
                 return new NightJC("Spyro's Night", settings.getFps(), nightMap, "night/n1/paper.png", powerOutage, rng, 20,
                         .45f, "night/general/completed.wav");
             }
