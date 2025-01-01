@@ -21,7 +21,7 @@ public class Spyro extends PathedMoveAnimatronicDrawing {
         super(nameId, 3, 5, aiDuringNight, GENERIC_MAX_AI, false, false,
                 "anim/spyro/camImg.png", new Jumpscare("anim/spyro/jump.gif", 0,
                         Resources.loadSound("anim/spyro/jump.wav", "spyroJump.wav"), 0,
-                        JumpscareVisualSetting.STRETCHED), camPaths, debugColor, rng);
+                        JumpscareVisualSetting.CENTERED), camPaths, debugColor, rng);
         sounds.put("move", Resources.loadSound("anim/spyro/move.wav", "spyroMove.wav"));
     }
 }
