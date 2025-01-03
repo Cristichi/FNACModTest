@@ -1,12 +1,12 @@
 package es.cristichi.fnacmodtest.anims;
 
+import es.cristichi.fnac.cnight.CustomNightAnimatronic;
+import es.cristichi.fnac.cnight.CustomNightAnimatronicData;
 import es.cristichi.fnac.exception.ResourceException;
 import es.cristichi.fnac.io.Resources;
 import es.cristichi.fnac.obj.Jumpscare;
 import es.cristichi.fnac.obj.JumpscareVisualSetting;
 import es.cristichi.fnac.obj.anim.PathedMoveAnimatronicDrawing;
-import es.cristichi.fnac.obj.cnight.CustomNightAnimatronic;
-import es.cristichi.fnac.obj.cnight.CustomNightAnimatronicData;
 
 import java.awt.*;
 import java.util.List;
@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.Random;
 
 @CustomNightAnimatronic(name = "Spyro", portraitPath = "anim/spyro/portrait.png",
-                        tutDesc = "Nope",
-                        restDesc = "Spyro goes to right door from bathrooms.")
+                        starts = {"storage"},
+                        description = "Spyro goes to right door from bathrooms.")
 public class Spyro extends PathedMoveAnimatronicDrawing {
     public Spyro(CustomNightAnimatronicData data) throws ResourceException {
         this("%s (%s)".formatted(data.name(), data.variant()), Map.of(0, data.ai()),

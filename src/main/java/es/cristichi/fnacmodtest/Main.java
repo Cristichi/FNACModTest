@@ -40,6 +40,6 @@ public class Main {
             }
         });
         
-        new es.cristichi.fnac.Main().run();
+        new es.cristichi.fnac.FnacMain().run();
     }
 }
