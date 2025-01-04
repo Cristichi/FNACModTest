@@ -51,7 +51,7 @@
         <dependency>
             <groupId>es.cristichi</groupId>
             <artifactId>five-nights-at-cris</artifactId>
-            <version>0.8.5</version>
+            <version>0.8.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
