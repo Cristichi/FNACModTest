@@ -2,8 +2,10 @@ package es.cristichi.fnacmodtest;
 
 import es.cristichi.fnac.cnight.CustomNightRegistry;
 import es.cristichi.fnac.exception.NightException;
+import es.cristichi.fnac.exception.ResourceException;
 import es.cristichi.fnac.gui.MenuJC;
 import es.cristichi.fnac.gui.NightJC;
+import es.cristichi.fnac.io.Resources;
 import es.cristichi.fnac.io.Settings;
 import es.cristichi.fnac.obj.Jumpscare;
 import es.cristichi.fnac.obj.anim.*;
@@ -40,16 +42,18 @@ public class Main {
                         List.of("kitchen", "dining area", "corridor 2", "bathrooms", "rightDoor"),
                         List.of("storage", "dining area", "main stage", "corridor 3", "leftDoor")
                 ), rng));
-                return new NightJC("Spyro's Night", settings.getFps(), nightMap, "night/n1/paper.png", powerOutage, rng, 20,
-                        .45f, "night/general/completed.wav");
+                return new NightJC("Spyro's Night", settings.getFps(), nightMap,
+                        Resources.loadImage("night/n1/paper.png"), powerOutage, rng, 20,
+                        .45f, Resources.loadSound("night/general/completed.wav"));
             }
         });
         // I copied Night 2 of this version of FNAC from its source files and added Spyro to the kitchen.
         NightRegistry.registerNight(2, new NightFactory() {
             
             @Override
-            public MenuJC.Item getItem() {
-                return new MenuJC.Item("n2", "Continue", "Night 2", "night/n2/loading.jpg");
+            public MenuJC.Item getItem() throws ResourceException {
+                return new MenuJC.Item("n2", "Continue", "Night 2",
+                        Resources.loadImage("night/n2/loading.jpg"));
             }
             
             @Override
@@ -82,8 +86,9 @@ public class Main {
                 nightMap.addCamAnimatronics("offices", maria);
                 nightMap.addCamAnimatronics("staff lounge", crisIsClose);
                 
-                return new NightJC("Night 2", settings.getFps(), nightMap, "night/n2/paper.png",
-                        powerOutage, rng, 90, 0.45f, "night/general/completed.wav");
+                return new NightJC("Night 2", settings.getFps(), nightMap,
+                        Resources.loadImage("night/n2/paper.png"), powerOutage, rng, 90, 0.45f,
+                        Resources.loadSound("night/general/completed.wav"));
             }
         });
         // All other Nights would be the same.

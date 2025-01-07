@@ -27,9 +27,10 @@ public class Spyro extends PathedMoveAnimatronicDrawing {
     public Spyro(String nameId, Map<Integer, Integer> aiDuringNight, List<List<String>> camPaths,
                  Random rng) throws ResourceException {
         super(nameId, 3, 5, aiDuringNight, GENERIC_MAX_AI, false, false,
-                "anim/spyro/camImg.png", new Jumpscare("anim/spyro/jump.gif", 0,
-                        Resources.loadSound("anim/spyro/jump.wav", "spyroJump.wav"), 0,
-                        JumpscareVisualSetting.CENTERED), camPaths, Color.MAGENTA.darker(), rng);
-        sounds.put("move", Resources.loadSound("anim/spyro/move.wav", "spyroMove.wav"));
+                Resources.loadImage("anim/spyro/camImg.png"),
+                new Jumpscare(Resources.loadGif("anim/spyro/jump.gif"), 0,Resources.loadSound("anim/spyro/jump.wav"),
+                        0, JumpscareVisualSetting.CENTERED),
+                camPaths, Color.MAGENTA.darker(), rng);
+        sounds.put("move", Resources.loadSound("anim/spyro/move.wav"));
     }
 }
