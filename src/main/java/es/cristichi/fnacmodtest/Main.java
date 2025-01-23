@@ -1,34 +1,61 @@
 package es.cristichi.fnacmodtest;
 
-import es.cristichi.fnac.cnight.CustomNightRegistry;
+import es.cristichi.fnac.FnacMain;
+import es.cristichi.fnac.anim.*;
+import es.cristichi.fnac.cams.CameraMap;
+import es.cristichi.fnac.cams.RestaurantCamMapFactory;
+import es.cristichi.fnac.cnight.CustomNightAnimData;
+import es.cristichi.fnac.cnight.CustomNightAnimFactory;
+import es.cristichi.fnac.cnight.CustomNightAnimRegistry;
 import es.cristichi.fnac.exception.NightException;
 import es.cristichi.fnac.exception.ResourceException;
 import es.cristichi.fnac.gui.MenuJC;
 import es.cristichi.fnac.gui.NightJC;
 import es.cristichi.fnac.io.Resources;
 import es.cristichi.fnac.io.Settings;
-import es.cristichi.fnac.obj.Jumpscare;
-import es.cristichi.fnac.obj.anim.*;
-import es.cristichi.fnac.obj.cams.CrisRestaurantMap;
-import es.cristichi.fnac.obj.nights.NightFactory;
-import es.cristichi.fnac.obj.nights.NightRegistry;
+import es.cristichi.fnac.nights.NightFactory;
+import es.cristichi.fnac.nights.NightRegistry;
 import es.cristichi.fnacmodtest.anims.Spyro;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 public class Main {
-    public static void main(String[] args) {
-        CustomNightRegistry.registerPackage("es.cristichi.fnacmodtest.anims");
+    public static void main(String[] args) throws ResourceException {
+        FnacMain.GAME_TITLE = "FNAC: Official modded example (by Cristichi)";
+        FnacMain.DEBUG_ALLNIGHTS = true;
         
+        CustomNightAnimRegistry.registerAnimatronic(new CustomNightAnimFactory<Spyro>("Spyro", """
+                Spyro goes to the right door. If he is at "bathrooms" or "cam3", he teleports \
+                directly to the right door to scare you.""",
+                20, Resources.loadImage("anim/spyro/portrait.png"), new String[]{"storage", "cam1"}) {
+            @Override
+            public Spyro generate(CustomNightAnimData data, Random rng) throws ResourceException {
+                try {
+                    return new Spyro("Spyro", Map.of(0, data.ai()),
+                            List.of(
+                                    List.of("cam1", "cam3", "rightDoor"),
+                                    List.of("cam2", "cam4", "leftDoor"),
+                                    List.of("kitchen", "dining area", "corridor 2", "bathrooms", "rightDoor"),
+                                    List.of("storage", "dining area", "main stage", "corridor 3", "leftDoor")
+                            ), rng);
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        
+        // Nights
+        RestaurantCamMapFactory restaurantCamMapFactory = new RestaurantCamMapFactory();
         /* This makes custom Night available instead of the Tutorial. Since the Custom Night also saves itself
          * as a completed Night, this still allows the rest of the Nights to occur.
          */
-        NightRegistry.registerNight(0, null);
+        //NightRegistry.registerNight(0, null);
         // Night 1.
-        NightRegistry.registerNight(1, new NightFactory() {
+        NightRegistry.registerNight(0, new NightFactory() {
             @Override
             public MenuJC.Item getItem() {
                 return new MenuJC.Item("night1", "Let's play with Spyro", "Night 1", null);
@@ -37,14 +64,14 @@ public class Main {
             @Override
             public NightJC createNight(Settings settings, Jumpscare powerOutage,
                                        Random rng) throws IOException, NightException {
-                CrisRestaurantMap nightMap = new CrisRestaurantMap();
+                CameraMap nightMap = restaurantCamMapFactory.generate();
                 nightMap.addCamAnimatronics("kitchen", new Spyro("spyro", Map.of(0,10), List.of(
                         List.of("kitchen", "dining area", "corridor 2", "bathrooms", "rightDoor"),
                         List.of("storage", "dining area", "main stage", "corridor 3", "leftDoor")
                 ), rng));
                 return new NightJC("Spyro's Night", settings.getFps(), nightMap,
                         Resources.loadImage("night/n1/paper.png"), powerOutage, rng, 20,
-                        .45f, Resources.loadSound("night/general/completed.wav"));
+                        .45f, Resources.loadSound("night/general/completed.wav"), null, null);
             }
         });
         // I copied Night 2 of this version of FNAC from its source files and added Spyro to the kitchen.
@@ -80,7 +107,7 @@ public class Main {
                             List.of("storage", "dining area", "main stage", "corridor 3", "leftDoor")
                         ), rng);
                 
-                CrisRestaurantMap nightMap = new CrisRestaurantMap();
+                CameraMap nightMap = restaurantCamMapFactory.generate();
                 nightMap.addCamAnimatronics("kitchen", paco, spyro);
                 nightMap.addCamAnimatronics("storage", bob);
                 nightMap.addCamAnimatronics("offices", maria);
@@ -88,7 +115,7 @@ public class Main {
                 
                 return new NightJC("Night 2", settings.getFps(), nightMap,
                         Resources.loadImage("night/n2/paper.png"), powerOutage, rng, 90, 0.45f,
-                        Resources.loadSound("night/general/completed.wav"));
+                        Resources.loadSound("night/general/completed.wav"), null, null);
             }
         });
         // All other Nights would be the same.
