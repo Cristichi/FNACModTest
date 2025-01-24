@@ -28,7 +28,7 @@ public class Main {
     public static void main(String[] args) {
         // We should not change these values during loading, we do it right away.
         FnacMain.GAME_TITLE = "FNAC: Official modded example (by Cristichi)";
-        FnacMain.DEBUG_ALLNIGHTS = true;
+        FnacMain.DEBUG_ALLNIGHTS = false;
         
         final RestaurantCamMapFactory restaurantCamMapFactory = new RestaurantCamMapFactory();
         
