@@ -55,8 +55,8 @@ public class Main {
                 /* This replaces the Tutorial, because the Tutorial is usually loaded on 0 comlpeted Nights. */
                 () -> NightRegistry.registerNight(0, new NightFactory() {
                     @Override
-                    public MenuJC.Item getItem() {
-                        return new MenuJC.Item("night0", "Let's play with Spyro", "Night 1", null);
+                    public MenuJC.ItemInfo getItem() {
+                        return new MenuJC.ItemInfo("night0", "Let's play with Spyro", "Night 1", null);
                     }
                     
                     @Override
@@ -75,8 +75,8 @@ public class Main {
                 // Night 1.
                 () -> NightRegistry.registerNight(1, new NightFactory() {
                     @Override
-                    public MenuJC.Item getItem() {
-                        return new MenuJC.Item("night1", "Let's play with Spyro", "Night 1", null);
+                    public MenuJC.ItemInfo getItem() {
+                        return new MenuJC.ItemInfo("night1", "Let's play with Spyro", "Night 1", null);
                     }
                     
                     @Override
@@ -96,8 +96,8 @@ public class Main {
                 () -> NightRegistry.registerNight(2, new NightFactory() {
                     
                     @Override
-                    public MenuJC.Item getItem() throws ResourceException {
-                        return new MenuJC.Item("n2", "Continue", "Night 2",
+                    public MenuJC.ItemInfo getItem() throws ResourceException {
+                        return new MenuJC.ItemInfo("n2", "Continue", "Night 2",
                                 Resources.loadImage("night/n2/loading.jpg"));
                     }
                     
