@@ -11,6 +11,7 @@ import es.cristichi.fnac.exception.NightException;
 import es.cristichi.fnac.exception.ResourceException;
 import es.cristichi.fnac.gui.MenuJC;
 import es.cristichi.fnac.gui.NightJC;
+import es.cristichi.fnac.io.NightProgress;
 import es.cristichi.fnac.io.Resources;
 import es.cristichi.fnac.io.Settings;
 import es.cristichi.fnac.loading.LoadRunnable;
@@ -28,7 +29,7 @@ public class Main {
     public static void main(String[] args) {
         // We should not change these values during loading, we do it right away.
         FnacMain.GAME_TITLE = "FNAC: Official modded example (by Cristichi)";
-        FnacMain.DEBUG_ALLNIGHTS = false;
+        //FnacMain.DEBUG_ALLNIGHTS = false;
         
         final RestaurantCamMapFactory restaurantCamMapFactory = new RestaurantCamMapFactory();
         
@@ -53,10 +54,11 @@ public class Main {
                     }
                 }),
                 /* This replaces the Tutorial, because the Tutorial is usually loaded on 0 comlpeted Nights. */
-                () -> NightRegistry.registerNight(0, new NightFactory() {
+                () -> NightRegistry.registerNight(new NightFactory(new MenuJC.ItemInfo("n0_spyro", "Tutorial with Spyro", "Tutorial", null)) {
+                    
                     @Override
-                    public MenuJC.ItemInfo getItem() {
-                        return new MenuJC.ItemInfo("night0", "Let's play with Spyro", "Night 1", null);
+                    public Availability getAvailability(NightProgress.SaveFile saveFile) {
+                        return new Availability(saveFile.completedNights().isEmpty(), false);
                     }
                     
                     @Override
@@ -68,15 +70,16 @@ public class Main {
                                 List.of("storage", "dining area", "main stage", "corridor 3", "leftDoor")
                         ), rng));
                         return new NightJC("Spyro's Night", settings.getFps(), nightMap,
-                                Resources.loadImage("night/n1/paper.png"), powerOutage, rng, 20,
+                                Resources.loadImage("night/n1/paper.png"), powerOutage, rng, 90, 6,
                                 .45f, Resources.loadSound("night/general/completed.wav"), null, null);
                     }
                 }),
                 // Night 1.
-                () -> NightRegistry.registerNight(1, new NightFactory() {
+                () -> NightRegistry.registerNight(new NightFactory(new MenuJC.ItemInfo("n1_spyro", "Continue with Spyro", "Night 1 with Spyro", null)) {
+                    
                     @Override
-                    public MenuJC.ItemInfo getItem() {
-                        return new MenuJC.ItemInfo("night1", "Let's play with Spyro", "Night 1", null);
+                    public Availability getAvailability(NightProgress.SaveFile saveFile) {
+                        return new Availability(saveFile.completedNights().size()==1, false);
                     }
                     
                     @Override
@@ -87,18 +90,18 @@ public class Main {
                                 List.of("kitchen", "dining area", "corridor 2", "bathrooms", "rightDoor"),
                                 List.of("storage", "dining area", "main stage", "corridor 3", "leftDoor")
                         ), rng));
-                        return new NightJC("Spyro's Night", settings.getFps(), nightMap,
-                                Resources.loadImage("night/n1/paper.png"), powerOutage, rng, 20,
+                        return new NightJC("Spyro's Night 1", settings.getFps(), nightMap,
+                                Resources.loadImage("night/n1/paper.png"), powerOutage, rng, 90, 6,
                                 .45f, Resources.loadSound("night/general/completed.wav"), null, null);
                     }
                 }),
                 // Night 2.
-                () -> NightRegistry.registerNight(2, new NightFactory() {
+                () -> NightRegistry.registerNight(new NightFactory(new MenuJC.ItemInfo("n2_spyro", "Continue with Spyro", "Night 2 with Spyro",
+                                Resources.loadImage("night/n2/loading.jpg"))) {
                     
                     @Override
-                    public MenuJC.ItemInfo getItem() throws ResourceException {
-                        return new MenuJC.ItemInfo("n2", "Continue", "Night 2",
-                                Resources.loadImage("night/n2/loading.jpg"));
+                    public Availability getAvailability(NightProgress.SaveFile saveFile) {
+                        return new Availability(saveFile.completedNights().size()==2, false);
                     }
                     
                     @Override
@@ -131,14 +134,14 @@ public class Main {
                         nightMap.addCamAnimatronics("offices", maria);
                         nightMap.addCamAnimatronics("staff lounge", crisIsClose);
                         
-                        return new NightJC("Night 2", settings.getFps(), nightMap,
-                                Resources.loadImage("night/n2/paper.png"), powerOutage, rng, 90, 0.45f,
-                                Resources.loadSound("night/general/completed.wav"), null, null);
+                        return new NightJC("Spyro's Night 2", settings.getFps(), nightMap,
+                                Resources.loadImage("night/n2/paper.png"), powerOutage, rng, 90, 6,
+                                0.45f, Resources.loadSound("night/general/completed.wav"), null, null);
                     }
                 })
         };
         
         // We start the game, specifying the methods that must be run during loading.
-        new es.cristichi.fnac.FnacMain().run(loadingRunnables, null, null);
+        new es.cristichi.fnac.FnacMain().run("FNAC with Spyro", loadingRunnables, null, null);
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>es.cristichi</groupId>
     <artifactId>fnac-mod-test</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>es.cristichi</groupId>
             <artifactId>five-nights-at-cris</artifactId>
-            <version>0.8.15</version>
+            <version>0.8.16</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
